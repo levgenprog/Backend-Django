@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "shop-back"
+version = "0.1.0"
+description = ""
+authors = ["Yevgeniy <leonov-y@gmail.com>"]
+readme = "README.md"
+packages = [{include = "shop_back"}]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+django = "^4.1.5"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
