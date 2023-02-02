@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "extra-commerce"
+version = "0.1.0"
+description = ""
+authors = ["Yevgeniy <leonov-y@gmail.com>"]
+readme = "README.md"
+packages = [{include = "extra_commerce"}]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+django = "^4.1.5"
+djangorestframework = "^3.14.0"
+pillow = "^9.4.0"
+django-filter = "^22.1"
+django-debug-toolbar = "^3.8.1"
+django-cleanup = "^6.0.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
