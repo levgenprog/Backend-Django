@@ -8,6 +8,16 @@ class ProductImageSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class ProductSerializer(serializers.ModelSerializer):
+    id = serializers.UUIDField(read_only = True)
+
+    class Meta:
+        model = Product
+        fields = '__all__'
+
+class RetriveProductSerializer(serializers.ModelSerializer):
+    id = serializers.UUIDField(read_only = True)
+    produt_images = ProductImageSerializer(many=True, read_only=True)
+
     class Meta:
         model = Product
         fields = '__all__'

@@ -11,7 +11,7 @@ class Product(models.Model):
     main_image = models.ImageField(upload_to='products/%Y/%m/%d/', verbose_name=_('Main image'))
     is_top = models.BooleanField(default=False, verbose_name=_('Is top'))
     is_active = models.BooleanField(default=True, verbose_name=_('Is active'))
-    data = models.JSONField(default=dict, verbose_name=_('Data'))
+    data = models.JSONField(default=dict, verbose_name=_('Data'), null=True, blank=True)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True) 
