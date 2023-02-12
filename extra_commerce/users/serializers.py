@@ -8,8 +8,10 @@ class CreateUserSerializer(serializers.ModelSerializer):
         model = models.CustomUser
         fields = ('email', 'password')
 
-class CreateTokenSerializer(serializers.ModelSerializer):
+class CreateTokenSerializer(serializers.Serializer):
     email = serializers.EmailField()
+    password = serializers.CharField()
 
-class GetUserSerializer(serializers.ModelSerializer):
+
+class GetUserSerializer(serializers.Serializer):
     token = serializers.CharField()
