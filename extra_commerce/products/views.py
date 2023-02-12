@@ -1,4 +1,4 @@
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, IsAuthenticated
 
 from django.shortcuts import render
 from rest_framework.viewsets import ModelViewSet
@@ -22,9 +22,9 @@ class ProductViewSet(ModelViewSet):
 
     def get_permissions(self):
         if self.action in ('list', 'retrieve'):
-            return AllowAny,
+            return IsAuthenticated(),
 
-        return permissions.IsMe,
+        return permissions.IsMe(),
     
     def list(self, request, *args, **kwargs):
         print(type(request.user))
