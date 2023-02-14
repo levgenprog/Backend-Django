@@ -24,15 +24,6 @@ class UserViewSet(ViewSet):
 
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
-    def create_token(self, request, *args, **kwargs):
-        serializer = serializers.CreateTokenSerializer(
-            data=request.data
-        )
-        serializer.is_valid(raise_exception=True)
-        tokens = self.user_services.create_token(data=serializer.validated_data)
-
-        return Response(tokens)
-
     def get_user(self, request, *args, **kwargs):
         serializer = serializers.GetUserSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -43,3 +34,21 @@ class UserViewSet(ViewSet):
         return Response({
             'email': token.user.email,
         })
+
+    def create_token(self, request, *args, **kwargs):
+        serializer = serializers.CreateTokenSerializer(
+            data=request.data
+        )
+        serializer.is_valid(raise_exception=True)
+        session_id = self.user_services.create_token(data=serializer.validated_data)
+
+        return Response(session_id)
+
+    def verify_token(self, request, *args, **kwargs):
+        serializer = serializers.VerifyUserSerializer(
+            data=request.data
+        )
+        serializer.is_valid(raise_exception=True)
+        tokens = self.user_services.verify_token(data=serializer.validated_data)
+
+        return Response(tokens)
