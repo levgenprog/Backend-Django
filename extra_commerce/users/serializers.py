@@ -18,3 +18,5 @@ class CreateTokenSerializer(serializers.Serializer):
 
 class GetUserSerializer(serializers.Serializer):
     token = serializers.CharField()
+
+

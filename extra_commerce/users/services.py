@@ -3,6 +3,8 @@ from typing import Protocol, OrderedDict
 import uuid
 from rest_framework_simplejwt import tokens
 from django.core.cache import cache 
+from django.core.mail import send_mail
+from django.conf import settings
 from . import repos, models
 
 
@@ -39,12 +41,12 @@ class UserServicesV1:
             'email': user_data['email'],
             'phone_number': user_data['phone_number'],
         })
-        self._send_email(email_txt=user.email)
+        self._send_email(email=user.email)
 
 
 
     def create_token(self, data: OrderedDict) -> dict:
-        session_id = self._verify_phone_number(data)
+        session_id = self._verify_phone_number(data, exists=True)
 
         return {
             'session_id': session_id,
@@ -69,11 +71,14 @@ class UserServicesV1:
             'refresh': str(refresh),
         }
 
-    def _verify_phone_number(self, data: OrderedDict) -> str:
-        user = self.user_repos.get_user(data)
+    def _verify_phone_number(self, data: OrderedDict, exists: bool = False) -> str:
+        phone_number = data['phone_number']
+        if exists:
+            user = self.user_repos.get_user(data)
+            phone_number = str(user.phone_number)
         code = self._generate_code()
         session_id = self._generate_session_id()
-        cache.set(session_id, {'phone_number': str(user.phone_number), 'code': code}, timeout=300)
+        cache.set(session_id, {'phone_number': phone_number, 'code': code, **data}, timeout=300)
         self._send_sms_to_phone_number(phone_number=data['phone_number'], code=code) 
 
         return session_id
@@ -89,8 +94,14 @@ class UserServicesV1:
         return str(uuid.uuid4())
         
     @staticmethod
-    def _send_email(email_txt: str) -> None:
-        print(f'sent {email_txt}')
+    def _send_email(email: str) -> None:
+        send_mail(
+            subject="Welcome!",
+            message="Thank you for the registration!",
+            from_email=settings.EMAIL_HOST_USER,
+            recipient_list=[email],
+            fail_silently=False 
+        )
 
     @staticmethod
     def _send_sms_to_phone_number(phone_number: str, code: str) -> None:
