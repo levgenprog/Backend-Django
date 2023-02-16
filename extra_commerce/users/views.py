@@ -1,6 +1,7 @@
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.viewsets import ViewSet
+from drf_yasg.utils import swagger_auto_schema
 
 from . import serializers, services, models
 
@@ -35,6 +36,7 @@ class UserViewSet(ViewSet):
             'email': token.user.email,
         })
 
+    @swagger_auto_schema(request_body=serializers.CreateTokenSerializer)
     def create_token(self, request, *args, **kwargs):
         serializer = serializers.CreateTokenSerializer(
             data=request.data

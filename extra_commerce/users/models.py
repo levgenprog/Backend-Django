@@ -3,6 +3,7 @@ import uuid
 from django.contrib.auth.base_user import BaseUserManager
 from phonenumber_field.modelfields import PhoneNumberField
 from django.db import models
+from . import choises
 
 from django.contrib.auth.models import AbstractUser
 from django.utils.translation import gettext_lazy as _
@@ -43,6 +44,7 @@ class CustomUser(AbstractUser):
     username = models.CharField(blank=True, null=True, max_length=1)
     email = models.EmailField(unique=True, verbose_name=_('Email'))
     phone_number = PhoneNumberField(unique=True)
+    user_type = models.CharField(choices=choises.UserTypeChoices.choices, null=True, blank=True, max_length=8,)
 
     USERNAME_FIELD = 'phone_number'
     REQUIRED_FIELDS = ['email']
