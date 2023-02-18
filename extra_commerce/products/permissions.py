@@ -1,18 +1,16 @@
-from rest_framework.permissions import DjangoObjectPermissions
+from rest_framework.permissions import BasePermission, SAFE_METHODS
 from . import models
 
 
-class IsMe(DjangoObjectPermissions):
+class IsAdminOrReadOnly(BasePermission):
     """
     Allows access only to authenticated users.
     """
 
     def has_permission(self, request, view):
         return bool(
+            request.method in SAFE_METHODS or
             request.user
             and request.user.is_authenticated
-            and request.user.email == 'a@a.com'
+            and request.user.is_staff
         )
-
-    def has_object_permission(self, request, view, obj: models.Product):
-        return obj.user == request.user
