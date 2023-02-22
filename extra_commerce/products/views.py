@@ -1,6 +1,3 @@
-from rest_framework.permissions import AllowAny, IsAuthenticated
-from django.db.models import Min, Q
-
 from django.shortcuts import render
 from rest_framework.viewsets import ModelViewSet
 
