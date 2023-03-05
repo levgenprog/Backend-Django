@@ -1,5 +1,5 @@
 from rest_framework.permissions import BasePermission, SAFE_METHODS
-from users import choises as user_choices
+from users import choices as user_choices
 
 
 class IsSellerOrReadOnly(BasePermission):

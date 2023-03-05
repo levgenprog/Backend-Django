@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth import get_user_model
 
-from users import choises as user_choices
+from users import choices as user_choices
 from seller_products import choices as seller_products_choices
 from . import choices
 
